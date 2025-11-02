@@ -11,13 +11,24 @@ ABaseCharacter::ABaseCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	USkeletalMeshComponent* MeshComp = GetMesh();
+	//USkeletalMeshComponent* MeshComp = GetMesh();
+	GetMesh()->FirstPersonPrimitiveType = EFirstPersonPrimitiveType::WorldSpaceRepresentation;
 	
 	FirstPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>("FirstPersonMesh");
-	FirstPersonMesh->SetupAttachment(MeshComp);
+	check(FirstPersonMesh);
+	FirstPersonMesh->SetupAttachment(GetMesh());
+	FirstPersonMesh->FirstPersonPrimitiveType = EFirstPersonPrimitiveType::FirstPerson;
+	FirstPersonMesh->SetOnlyOwnerSee(true);
 	
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
-	CameraComponent->SetupAttachment(FirstPersonMesh, FName("head"));
+	FPCameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
+	check(FPCameraComponent);
+	FPCameraComponent->SetupAttachment(FirstPersonMesh, FName("head"));
+	FPCameraComponent->bUsePawnControlRotation = true;
+	FPCameraComponent->SetRelativeLocationAndRotation(FirstPersonCameraOffset, FRotator(0, 90.0f, -90.0f));
+	FPCameraComponent->bEnableFirstPersonFieldOfView = true;
+	FPCameraComponent->bEnableFirstPersonScale = true;
+	FPCameraComponent->FirstPersonFieldOfView = FirstPersonFieldOfView;
+	FPCameraComponent->FirstPersonScale = FirstPersonScale;
 	
 	InputPawn = CreateDefaultSubobject<UInputPawnComponent>("InputComponent");
 }
@@ -26,7 +37,9 @@ ABaseCharacter::ABaseCharacter()
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	// Set the animations on the first person mesh.
+	FirstPersonMesh->SetAnimInstanceClass(FirstPersonDefaultAnim->GeneratedClass);
 }
 
 // Called every frame
