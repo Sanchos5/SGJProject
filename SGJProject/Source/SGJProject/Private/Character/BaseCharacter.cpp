@@ -4,6 +4,7 @@
 #include "Character/BaseCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Components/InputPawnComponent.h"
+#include "Components/BatteryComponent.h"
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -31,6 +32,8 @@ ABaseCharacter::ABaseCharacter()
 	FPCameraComponent->FirstPersonScale = FirstPersonScale;
 	
 	InputPawn = CreateDefaultSubobject<UInputPawnComponent>("InputComponent");
+
+	BatteryComponent = CreateDefaultSubobject<UBatteryComponent>("BatteryComponent");
 }
 
 // Called when the game starts or when spawned

@@ -11,6 +11,7 @@ class USkeletalMeshComponent;
 class UCameraComponent;
 class UAnimBlueprint;
 class UInputPawnComponent;
+class UBatteryComponent;
 
 UCLASS()
 class SGJPROJECT_API ABaseCharacter : public ACharacter
@@ -56,4 +57,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputPawnComponent> InputPawn;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Battery", Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UBatteryComponent> BatteryComponent;
 };
