@@ -36,7 +36,7 @@ protected:
 	float ActivationProgress = 0.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Goggles Settings")
-	float GogglesActivationTime = 5.0f;
+	float GogglesActivationTime = 2.0f;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Goggles Settings")
 	bool bIsActivating = false;
